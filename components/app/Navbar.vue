@@ -9,8 +9,8 @@ const { public: { iconSufix , website} } = useRuntimeConfig()
 
   <nav class="p-2 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
     <div class="container flex flex-wrap items-center justify-between mx-auto">
-      <a href="/" class="flex items-center">
-        <img :src="`${website.prefix}/svgs/${appConfigurationData.icon}-${iconSufix}.svg`" class="h-6 mr-3 sm:h-10" alt="Pokeapi Logo" />
+      <a :href="appConfigurationData.prefix" class="flex items-center">
+        <img :src="`${appConfigurationData.prefix}svgs/${appConfigurationData.icon}-${iconSufix}.svg`" class="h-6 mr-3 sm:h-10" alt="Pokeapi Logo" />
         <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
           {{ appConfigurationData.name }}
         </span>
@@ -32,7 +32,7 @@ const { public: { iconSufix , website} } = useRuntimeConfig()
           <li>
             <NuxtLink
               class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-white dark:bg-blue-600 md:dark:bg-transparent"
-              aria-current="page" to="/">Home</NuxtLink>
+              aria-current="page" :to="appConfigurationData.prefix">Home</NuxtLink>
           </li>
         </ul>
       </div>

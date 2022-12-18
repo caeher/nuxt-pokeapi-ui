@@ -1,5 +1,9 @@
 <script lang="ts" setup>
-import { Ref } from 'vue';
+import { AsyncData } from '#app';
+import { IBerry } from '~~/ts/interfaces/Berry';
+import { IItem } from '~~/ts/interfaces/Item';
+import { IPokemon } from '~~/ts/interfaces/Pokemon';
+
 const { public: { pokeApi, pokeSvg } } = useRuntimeConfig()
 const select = ref('pokemon')
 const { query } = useRoute()
@@ -11,14 +15,14 @@ if (query.page) {
   paginationCount.value.count = parseInt(query.page.toString())
 }
 const uri = ref(`${pokeApi}/${select.value}?limit=20&offset=${paginationCount.value.count * 20}`)
-const { data: pokeApiData, error: pokeApiError, pending: pokeApiPeding, refresh: pokeApiRefresh } = await useAsyncData('pokeapi', async () => $fetch(uri.value))
+const { data: pokeApiData, error: pokeApiError, pending: pokeApiPeding, refresh: pokeApiRefresh } = <AsyncData<IPokemon, Error>> await useAsyncData('pokeapi', async () => $fetch(uri.value))
 
 const pokeApiOptions = [
   'pokemon', 'berry', 'item'
 ]
 
 async function movePaginateTo(nextPrev: 'next' | 'previous') {
-  if (pokeApiData?.value[nextPrev]) {
+  if (pokeApiData.value != null && pokeApiData?.value[nextPrev]) {
     if (nextPrev == 'next' && paginationCount.value.count >= 0) {
       paginationCount.value.count++;
     } else {
@@ -29,7 +33,7 @@ async function movePaginateTo(nextPrev: 'next' | 'previous') {
     } else {
       push(`/?page=${paginationCount.value.count}`)
     }
-    uri.value = pokeApiData?.value[nextPrev]
+    uri.value = pokeApiData?.value[nextPrev] ?? ''
     await pokeApiRefresh()
   }
 }
@@ -41,11 +45,11 @@ function imgPokemon(index: number) {
     return (index + 1) + paginationCount.value.count * 20
   }
 }
-const pokeSearchData = reactive({ data: {} }), pokeSearchError = reactive({ data: {} })
+const pokeSearchData: any = reactive({ data: {} }), pokeSearchError = reactive({ data: {} })
 let pokeSearchRefresh: any = {};
 async function onSearch() {
   if (search.value != '') {
-    const { data: SearchData, error: SearchError, refresh: SearchRefresh, pending: SearchPending } = await useAsyncData('search', async () => {
+    const { data: SearchData, error: SearchError, refresh: SearchRefresh, pending: SearchPending } = <AsyncData<IPokemon|IBerry|IItem, Error>> await useAsyncData('search', async () => {
       return $fetch(`${pokeApi}/${select.value}/${search.value}`)
     })
     pokeSearchData.data = SearchData
@@ -125,7 +129,6 @@ async function onSelectChange(selected: string) {
         </div>
         <div class="my-12">
           <template v-if="pokeApiData">
-            <!-- <AppTable :header="header" :body="pokeApiData.results"/> -->
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
               <template v-for="(pokemon, index) in pokeApiData?.results">
                 <AppCard :title="pokemon.name" :image="`${pokeSvg}/${imgPokemon(index)}.png`" />
@@ -133,7 +136,7 @@ async function onSelectChange(selected: string) {
             </div>
           </template>
           <div class="mt-6">
-            <AppSimplePagination @pagination="movePaginateTo" :total="pokeApiData?.count" :limit="20" />
+            <AppSimplePagination @pagination="movePaginateTo" :total="pokeApiData?.count?? 0" :limit="20" />
           </div>
         </div>
       </div>

@@ -7,7 +7,6 @@ const props = defineProps({
     required: true
   }
 })
-const idMenuCounter = ref(0)
 </script>
 <template>
   <div>
@@ -17,7 +16,6 @@ const idMenuCounter = ref(0)
     <ul class="text-gray-600 dark:text-gray-400">
       <li
         v-for="item in data.links" 
-        :key="item.key || ++idMenuCounter"
         class="mb-4">
         <a :href="item.url" class="hover:underline">
           {{ item.name }}

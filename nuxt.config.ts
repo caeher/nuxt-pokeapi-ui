@@ -1,7 +1,6 @@
 import { appConfigurationData } from "./utils/app"
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    // target: 'static',
     ssr: false,
     runtimeConfig: {
         public: {
@@ -22,9 +21,6 @@ export default defineNuxtConfig({
         '@nuxtjs/tailwindcss',
         '@nuxtjs/color-mode'
     ],
-    // buildModules: [
-    //     '@nuxt/image'
-    // ],
     tailwindcss: {
         cssPath: '~/assets/css/tailwind.css',
         configPath: 'tailwind.config'
@@ -36,6 +32,8 @@ export default defineNuxtConfig({
     },
     app: {
         rootId: 'crisanto',
+        baseURL: '/nuxt-pokeapi-ui/',
+        buildAssetsDir: '/spa/'
     },
     experimental: {
         payloadExtraction: false

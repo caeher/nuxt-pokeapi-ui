@@ -3,6 +3,7 @@
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
+    <!-- <NuxtWelcome /> -->
   </div>
 </template>
 <style lang="postcss">
