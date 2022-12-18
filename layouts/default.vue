@@ -3,7 +3,7 @@
 <template>
   <div>
     <AppNavbar />
-    <slot />
+      <slot />
     <AppFooter />
   </div>
 </template>

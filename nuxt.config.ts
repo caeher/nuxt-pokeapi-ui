@@ -33,7 +33,6 @@ export default defineNuxtConfig({
     app: {
         rootId: 'crisanto',
         baseURL: '/nuxt-pokeapi-ui/',
-        buildAssetsDir: '/spa/'
     },
     experimental: {
         payloadExtraction: false

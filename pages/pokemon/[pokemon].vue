@@ -13,8 +13,8 @@ if (pokemonError.value) {
 }
 const moves: IMove[] = []
 if (pokemonData.value && pokemonData.value.moves != undefined) {
-    pokemonData.value.moves.every(move => {
-        if(move.version_group_details != undefined){
+    pokemonData.value.moves.forEach(move => {
+        if(move.version_group_details){
             const group = move.version_group_details.map(group => {
                 return {
                     learn_method: group.move_learn_method?.name,
@@ -26,12 +26,12 @@ if (pokemonData.value && pokemonData.value.moves != undefined) {
                 name: move.move?.name,
                 ...group[0]
             }
-            return newMove
+            moves.push(newMove)
         }
     })
 }
 
-console.log(moves)
+console.log(pokemonData.value)
 
 
 </script>
