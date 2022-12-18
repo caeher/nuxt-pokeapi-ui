@@ -2,7 +2,7 @@
 import { appConfigurationData } from '~~/utils/app'
 
 const isNavbarOpen = ref(false)
-const { public: { iconSufix } } = useRuntimeConfig()
+const { public: { iconSufix , website} } = useRuntimeConfig()
 
 </script>
 <template>
@@ -10,7 +10,7 @@ const { public: { iconSufix } } = useRuntimeConfig()
   <nav class="p-2 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
     <div class="container flex flex-wrap items-center justify-between mx-auto">
       <a href="/" class="flex items-center">
-        <img :src="`/svgs/${appConfigurationData.icon}-${iconSufix}.svg`" class="h-6 mr-3 sm:h-10" alt="Pokeapi Logo" />
+        <img :src="`${website.prefix}/svgs/${appConfigurationData.icon}-${iconSufix}.svg`" class="h-6 mr-3 sm:h-10" alt="Pokeapi Logo" />
         <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
           {{ appConfigurationData.name }}
         </span>

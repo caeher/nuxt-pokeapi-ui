@@ -2,9 +2,11 @@
 import { socialNetwork } from '~~/utils/social-networks';
 import { footer } from '~~/utils/footer';
 import { appConfigurationData } from '~~/utils/app';
+const config = useAppConfig()
 const { public: { website, iconSufix } } = useRuntimeConfig()
 const darkMode = useColorMode()
 const isDark = ref(false)
+
 
 function darkModeToggle() {
   if (darkMode.preference == 'dark')
@@ -20,7 +22,7 @@ function darkModeToggle() {
     <div class="md:flex md:justify-between">
       <div class="mb-6 md:mb-0">
         <a href="/" class="flex items-center">
-          <img :src="`/svgs/${website.icon}-${iconSufix}.svg`" class="mr-3 h-8" :alt="`${website.name} Logo`" />
+          <img :src="`${appConfigurationData.prefix}/svgs/${website.icon}-${iconSufix}.svg`" class="mr-3 h-8" :alt="`${website.name} Logo`" />
           <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">{{ website.name }}</span>
         </a>
         <div class="mt-6">
