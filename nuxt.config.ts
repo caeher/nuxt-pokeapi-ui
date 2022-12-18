@@ -3,10 +3,14 @@ import { appConfigurationData } from "./utils/app"
 export default defineNuxtConfig({
     target: 'static',
     ssr: false,
+    typescript: {
+        strict: false,
+    },
     runtimeConfig: {
         public: {
             pokeApi: 'https://pokeapi.co/api/v2',
-            pokeSvg: 'https://veekun.com/dex/media/pokemon/dream-world',
+            // pokeSvg: 'https://veekun.com/dex/media/pokemon/dream-world',
+            pokeSvg: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home',
             iconSufix: 'svgrepo-com',
             website: appConfigurationData
         }
