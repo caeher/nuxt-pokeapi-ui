@@ -1,11 +1,8 @@
 import { appConfigurationData } from "./utils/app"
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    target: 'static',
+    // target: 'static',
     ssr: false,
-    typescript: {
-        strict: false,
-    },
     runtimeConfig: {
         public: {
             pokeApi: 'https://pokeapi.co/api/v2',
@@ -25,22 +22,22 @@ export default defineNuxtConfig({
         '@nuxtjs/tailwindcss',
         '@nuxtjs/color-mode'
     ],
-    buildModules: [
-        '@nuxt/image'
-    ],
+    // buildModules: [
+    //     '@nuxt/image'
+    // ],
     tailwindcss: {
         cssPath: '~/assets/css/tailwind.css',
         configPath: 'tailwind.config'
     },
     colorMode: {
         preference: 'system', // default value of $colorMode.preference
-        fallback: 'light', // fallback value if not system preference found
-        componentName: 'ColorScheme',
         classPrefix: '',
         classSuffix: '',
-        storageKey: 'nuxt-color-mode'
     },
     app: {
-        baseURL: appConfigurationData.prefix ?? ''
+        rootId: 'crisanto',
+    },
+    experimental: {
+        payloadExtraction: false
     }
 })
