@@ -6,12 +6,11 @@ export const footer: IListUrlItem[] = [
         links: [
             {
                 name: 'PokeApi',
-                url: '/',
-                // key: ''
+                url: 'https://pokeapi.co/',
             },
             {
                 name: 'Tailwind CSS',
-                url: 'https://tailwindcc.com',
+                url: 'https://tailwindcss.com',
                 key: 'tailwindcss'
             }
         ]
@@ -21,7 +20,7 @@ export const footer: IListUrlItem[] = [
         links: [
             {
                 name: 'Discord',
-                url: 'https://discord.com',
+                url: '#discord',
                 key: 'discord'
             },
             {
@@ -41,7 +40,7 @@ export const footer: IListUrlItem[] = [
             },
             {
                 name: 'Privacy and policy',
-                url: 'privacyandpolicy',
+                url: '#privacyandpolicy',
                 key: 'privacyandpolicy'
             }
         ]

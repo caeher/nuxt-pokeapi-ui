@@ -46,7 +46,7 @@ console.log(moves)
                             <figure class="mx-auto">
                                 <img class="mx-auto" :src="pokemonData?.sprites.other.home.front_default" alt="" />
                             </figure>
-                            <div class="mt-3 bg-white -mx-3 -mb-3 pb-3 rounded-b-lg px-3">
+                            <div class="mt-3 bg-white dark:bg-gray-800 -mx-3 -mb-3 pb-3 rounded-b-lg px-3">
                                 <h1 class="text-5xl text-center font-bold text-slate-900 pb-6 capitalize">{{ pokemonData?.name }}
                                 </h1>
                                 <div class="grid grid-cols-2 grid-rows-2 gap-3">

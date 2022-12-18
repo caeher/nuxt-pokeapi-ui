@@ -2,20 +2,20 @@
 import { appConfigurationData } from '~~/utils/app'
 
 const isNavbarOpen = ref(false)
-const {public: {iconSufix}} = useRuntimeConfig()
+const { public: { iconSufix } } = useRuntimeConfig()
 
 </script>
 <template>
 
-  <nav class="px-2 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
+  <nav class="p-2 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
     <div class="container flex flex-wrap items-center justify-between mx-auto">
-      <a href="#" class="flex items-center">
+      <a href="/" class="flex items-center">
         <img :src="`/svgs/${appConfigurationData.icon}-${iconSufix}.svg`" class="h-6 mr-3 sm:h-10" alt="Pokeapi Logo" />
         <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
           {{ appConfigurationData.name }}
         </span>
       </a>
-      <button @click="isNavbarOpen = !isNavbarOpen" type="button"
+      <button @click="isNavbarOpen = !isNavbarOpen" v-click-outside="() => isNavbarOpen = false" type="button"
         class="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
         aria-controls="navbar-multi-level" aria-expanded="false">
         <span class="sr-only">Open main menu</span>
@@ -26,30 +26,13 @@ const {public: {iconSufix}} = useRuntimeConfig()
             clip-rule="evenodd"></path>
         </svg>
       </button>
-      <div class=" w-full md:block md:w-auto" id="navbar-multi-level" :class="[{'hidden': !isNavbarOpen}]">
+      <div class=" w-full md:block md:w-auto" id="navbar-multi-level" :class="[{ 'hidden': !isNavbarOpen }]">
         <ul
           class="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
           <li>
             <NuxtLink
               class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-white dark:bg-blue-600 md:dark:bg-transparent"
-              aria-current="page"
-              to="/"
-              >Home</NuxtLink>
-          </li>
-          <li>
-            <AppDropdown />
-          </li>
-          <li>
-            <a href="#"
-              class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Services</a>
-          </li>
-          <li>
-            <a href="#"
-              class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Pricing</a>
-          </li>
-          <li>
-            <a href="#"
-              class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Contact</a>
+              aria-current="page" to="/">Home</NuxtLink>
           </li>
         </ul>
       </div>

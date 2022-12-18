@@ -19,7 +19,7 @@ const idMenuCounter = ref(0)
         v-for="item in data.links" 
         :key="item.key || ++idMenuCounter"
         class="mb-4">
-        <a href="https://flowbite.com/" class="hover:underline">
+        <a :href="item.url" class="hover:underline">
           {{ item.name }}
         </a>
       </li>

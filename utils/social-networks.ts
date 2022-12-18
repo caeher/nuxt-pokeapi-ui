@@ -9,7 +9,7 @@ export const socialNetwork:ISocialNetworksItem[] = [
     },
     {
         name: 'Linkedin',
-        url: 'https://linkedin.com',
+        url: 'https://linkedin.com/crisanto-escalante',
         icon: 'linkedin',
         key: 'linkedin'
     },
@@ -33,7 +33,7 @@ export const socialNetwork:ISocialNetworksItem[] = [
     },
     {
         name: 'Github',
-        url: 'https://github.com',
+        url: 'https://github.com/caeher',
         icon: 'github',
         key: 'github'
     }
