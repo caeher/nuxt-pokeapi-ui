@@ -50,7 +50,7 @@ jobs:
         with:
           node-version: "16"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
-          cache-dependency-path: './server/package-lock.json'
+          cache-dependency-path: ' /home/runner/work/nuxt-pokeapi-ui/nuxt-pokeapi-ui/package-lock.json'
       - name: Setup Pages
         uses: actions/configure-pages@v2
         with:
