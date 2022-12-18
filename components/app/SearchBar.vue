@@ -1,14 +1,16 @@
 <script lang="ts" setup>
 import { PropType } from 'vue';
-const emit = defineEmits(['selectChange'])
+const emit = defineEmits(['selectChange', 'search', 'update:modelValue'])
 const props = defineProps({
   label: String as PropType<string>,
   placeholder: String as PropType<string>,
   options: {
     type: Array<String>,
     required: true
-  }
+  }, 
+  modelValue: String || Number
 })
+
 
 const select = ref(props.options[0])
 const isOpenDropdown = ref(false)
@@ -18,7 +20,12 @@ function onSelectChange(selected: string) {
   isOpenDropdown.value = false
   emit('selectChange', selected)
 }
-
+function onSearch() {
+  emit('search')
+}
+function onEnter() {
+  onSearch()
+}
 </script>
 
 <template>
@@ -42,7 +49,7 @@ function onSelectChange(selected: string) {
       <div 
         v-if="isOpenDropdown" 
         v-click-outside="() => isOpenDropdown = false" 
-        class="z-10 bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700"
+        class="z-50 bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700"
         data-popper-placement="top"
         style="position: absolute; inset: auto auto 0px 0px; margin: 0px;;">
         <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button">
@@ -57,10 +64,17 @@ function onSelectChange(selected: string) {
         </ul>
       </div>
       <div class="relative w-full">
-        <input type="search" id="search-dropdown"
+        <input 
+          type="search" 
+          id="search-dropdown"
+          :value="modelValue"
+          @input="emit('update:modelValue', $event.target.value || '')"
+          v-on:keyup.enter="onEnter"
           class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-r-lg border-l-gray-50 border-l-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-          :placeholder="`${placeholder} ${select}`" required>
-        <button type="submit"
+          :placeholder="`${placeholder} ${select} (type a number)`" required />
+        <button 
+          type="submit"
+          @click="onSearch"
           class="absolute top-0 right-0 p-2.5 text-sm font-medium text-white bg-blue-700 rounded-r-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
           <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg">

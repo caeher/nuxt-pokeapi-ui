@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { socialNetwork } from '~~/utils/social-networks';
 import { footer } from '~~/utils/footer';
-import IWebsite from '~~/ts/interfaces/Website'
 const {public: {website, iconSufix}} = useRuntimeConfig()
 
 </script>
@@ -23,8 +22,8 @@ const {public: {website, iconSufix}} = useRuntimeConfig()
     </div>
     <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
     <div class="sm:flex sm:items-center sm:justify-between">
-      <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2022 <a href="https://flowbite.com/"
-          class="hover:underline">Flowbite™</a>. All Rights Reserved.
+      <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© {{ (new Date(Date.now())).getFullYear() }} <a href="https://flowbite.com/"
+          class="hover:underline">{{ appConfigurationData.name }}™</a>. All Rights Reserved.
       </span>
       <AppSocialNetworksRow :data="socialNetwork" />
     </div>
