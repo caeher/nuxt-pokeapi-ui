@@ -1,32 +1,32 @@
 <script lang="ts" setup>
-const { public: { pokeApi,pokeSvg } } = useRuntimeConfig()
+import { Ref } from 'vue';
+const { public: { pokeApi, pokeSvg } } = useRuntimeConfig()
 const select = ref('pokemon')
-const {query} = useRoute()
-const {push} = useRouter()
+const { query } = useRoute()
+const { push } = useRouter()
 const search = ref('')
-const searchPending = ref(false)
 
 const paginationCount = usePaginationCounter
-if(query.page) {
+if (query.page) {
   paginationCount.value.count = parseInt(query.page.toString())
 }
-const uri = ref(`${pokeApi}/${select.value}?limit=20&offset=${paginationCount.value.count*20}`)
+const uri = ref(`${pokeApi}/${select.value}?limit=20&offset=${paginationCount.value.count * 20}`)
 const { data: pokeApiData, error: pokeApiError, pending: pokeApiPeding, refresh: pokeApiRefresh } = await useAsyncData('pokeapi', async () => $fetch(uri.value))
 
 const pokeApiOptions = [
-  'berry', 'item', 'location', 'machine', 'move', 'pokemon'
+  'pokemon', 'berry', 'item'
 ]
 
 async function movePaginateTo(nextPrev: 'next' | 'previous') {
-  if(pokeApiData?.value[nextPrev]) {
-    if(nextPrev == 'next' && paginationCount.value.count >= 0) {
+  if (pokeApiData?.value[nextPrev]) {
+    if (nextPrev == 'next' && paginationCount.value.count >= 0) {
       paginationCount.value.count++;
-    }else {
+    } else {
       paginationCount.value.count--;
     }
-    if(paginationCount.value.count == 0) {
+    if (paginationCount.value.count == 0) {
       push(`/`)
-    }else {
+    } else {
       push(`/?page=${paginationCount.value.count}`)
     }
     uri.value = pokeApiData?.value[nextPrev]
@@ -34,52 +34,106 @@ async function movePaginateTo(nextPrev: 'next' | 'previous') {
   }
 }
 
-function imgPokemon(index:number){ 
-  if(paginationCount.value.count == 0) {
+function imgPokemon(index: number) {
+  if (paginationCount.value.count == 0) {
     return (index + 1)
-  }else {
-    return (index + 1) + paginationCount.value.count*20
+  } else {
+    return (index + 1) + paginationCount.value.count * 20
+  }
+}
+const pokeSearchData = reactive({ data: {} }), pokeSearchError = reactive({ data: {} })
+let pokeSearchRefresh: any = {};
+async function onSearch() {
+  if (search.value != '') {
+    const { data: SearchData, error: SearchError, refresh: SearchRefresh, pending: SearchPending } = await useAsyncData('search', async () => {
+      return $fetch(`${pokeApi}/${select.value}/${search.value}`)
+    })
+    pokeSearchData.data = SearchData
+    pokeSearchError.data = SearchError
+    pokeSearchRefresh = SearchRefresh
   }
 }
 
-const {data: pokeSearchData, error: pokeSearchError, refresh: pokeSearchRefresh} = await useAsyncData('search',async () => {
-  return $fetch(`${pokeApi}/${select.value}/${search.value}`)
-})
 
-async function onSelectChange (selected:string) {
+async function onSelectChange(selected: string) {
   select.value = selected
+  if (pokeSearchRefresh instanceof Function) {
+    pokeSearchRefresh()
+  }
 }
-await pokeSearchRefresh()
 
-console.log(pokeSearchData)
 </script>
 <template>
   <div>
     <AppSimpleHero />
     <div class="my-20">
       <div class="px-3 sm:px-12 md:px-20 lg:px-32 xl:px-40">
-        <AppSearchBar label="Pokemon" placeholder="Search" :options="pokeApiOptions" @select-change="onSelectChange"/>
-        <div 
-          v-if="search != '' && !searchPending"
-          class="my-12">
-          <div class="">
-            Buscados
-          </div>
+        <AppSearchBar label="Pokemon" placeholder="Search" v-model="search" :options="pokeApiOptions"
+          @select-change="onSelectChange" @search="onSearch" />
+        <div v-if="!pokeSearchError.data" class="my-12">
+          <template v-if="select == 'pokemon'">
+            <div class="bg-slate-100 dark:bg-gray-800 rounded-lg drop-shadow p-3">
+              <div class="grid items-start grid-cols-12">
+                <figure class="col-span-4">
+                  <img :src="`${pokeSvg}/${pokeSearchData.data?.id}.png`" :alt="search">
+                </figure>
+                <div class="col-span-8">
+                  <h2 class="text-3xl md:text-5xl lg:text-6xl font-bold capitalize text-slate-900">{{
+                      pokeSearchData.data?.name
+                  }}</h2>
+                  <p class="mb-3">Types: </p>
+                  <AppBadge class="inline mr-3" v-for="item in pokeSearchData.data?.types" type="info">
+                    {{ item.type.name }}
+                  </AppBadge>
+                  <p class="my-3">Abilities: </p>
+                  <AppBadge class="inline mr-3" v-for="item in pokeSearchData.data?.abilities" type="success">
+                    {{ item.ability.name }}
+                  </AppBadge>
+                </div>
+              </div>
+            </div>
+          </template>
+          <template v-if="select == 'berry'">
+            <div class="bg-slate-100 dark:bg-gray-800 rounded-lg drop-shadow p-3 my-12">
+              <h2 class="text-3xl md:text-5xl lg:text-6xl font-bold capitalize text-slate-900">{{
+                  pokeSearchData.data?.name
+              }}</h2>
+              <p class="mb-3">Flavors: </p>
+              <AppBadge class="inline mr-3" v-for="item in pokeSearchData.data?.flavors" type="info">
+                {{ item.flavor.name }}
+              </AppBadge>
+            </div>
+          </template>
+          <template v-if="select == 'item'">
+            <div class="bg-slate-100 dark:bg-gray-800 rounded-lg drop-shadow p-3">
+              <div class="">
+                <div>
+                  <figure class="flex items-center gap-x-3">
+                    <img class="w-12 h-12" :src="`${pokeSearchData.data?.sprites?.default}`" :alt="search" />
+                    <h2 class="text-3xl md:text-5xl lg:text-6xl font-bold capitalize text-slate-900">{{
+                        pokeSearchData.data?.name
+                    }}</h2>
+                  </figure>
+                  <div v-for="effect in pokeSearchData.data?.effect_entries">
+                    <p class="mt-3">Effect: {{ effect.effect }}</p>
+                    <p class="mt-3">Short effect: {{ effect.short_effect }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
         </div>
         <div class="my-12">
           <template v-if="pokeApiData">
             <!-- <AppTable :header="header" :body="pokeApiData.results"/> -->
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
               <template v-for="(pokemon, index) in pokeApiData?.results">
-                <AppCard :title="pokemon.name" :image="`${pokeSvg}/${imgPokemon(index)}.svg`"/>
+                <AppCard :title="pokemon.name" :image="`${pokeSvg}/${imgPokemon(index)}.png`" />
               </template>
             </div>
           </template>
           <div class="mt-6">
-            <AppSimplePagination 
-              @pagination="movePaginateTo"
-              :total="pokeApiData?.count"
-              :limit="20"/>
+            <AppSimplePagination @pagination="movePaginateTo" :total="pokeApiData?.count" :limit="20" />
           </div>
         </div>
       </div>
