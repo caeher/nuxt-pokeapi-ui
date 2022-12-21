@@ -32,7 +32,7 @@ const { public: { iconSufix , website} } = useRuntimeConfig()
           <li>
             <NuxtLink
               class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-white dark:bg-blue-600 md:dark:bg-transparent"
-              aria-current="page" :to="appConfigurationData.prefix">Home</NuxtLink>
+              aria-current="page" :href="`/`">Home</NuxtLink>
           </li>
         </ul>
       </div>

@@ -61,8 +61,10 @@ async function onSearch() {
 
 async function onSelectChange(selected: string) {
   select.value = selected
+  search.value = ''
   if (pokeSearchRefresh instanceof Function) {
-    pokeSearchRefresh()
+    // pokeSearchRefresh()
+    pokeSearchError.data = true
   }
 }
 
