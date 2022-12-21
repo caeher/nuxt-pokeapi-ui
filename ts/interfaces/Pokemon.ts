@@ -32,5 +32,8 @@ export interface IPokemon {
     weight?: number,
     results?: any,
     count?: number,
-    base_experience?: number
+    base_experience?: number,
+    effect_entries?: {
+        effect?: string
+    }[]
 }
