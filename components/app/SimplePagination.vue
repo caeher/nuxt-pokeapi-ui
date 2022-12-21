@@ -28,7 +28,7 @@ function movePaginateTo(nextPrev: 'next' | 'previous') {
   <div class="flex flex-col items-center">
     <!-- Help text -->
     <span class="text-sm text-gray-700 dark:text-gray-400">
-      Showing <span class="font-semibold text-gray-900 dark:text-white">{{ showing.count*20 }}</span> to <span
+      Showing <span class="font-semibold text-gray-900 dark:text-white">{{ showing.count*20 + 1 }}</span> to <span
         class="font-semibold text-gray-900 dark:text-white">{{ ofShowing }}</span> of <span
         class="font-semibold text-gray-900 dark:text-white">{{ total }}</span> Entries
     </span>
