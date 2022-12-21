@@ -1,5 +1,9 @@
 # Nuxt PokeApi UI
 
+## Demo Page
+
+Visit [demo page here](https://caeher.github.io/nuxt-pokeapi-ui/ "Pokeapi UI demo page")
+
 ## Setup
 
 Make sure to install the dependencies:
@@ -20,6 +24,8 @@ pnpm install --shamefully-hoist
 Start the development server on http://localhost:3000
 
 ```bash
+npm run postinstall
+
 npm run dev
 ```
 
